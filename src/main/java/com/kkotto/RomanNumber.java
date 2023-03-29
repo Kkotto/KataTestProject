@@ -33,6 +33,10 @@ public enum RomanNumber {
         return romanValue;
     }
 
+    public int getArabicValue() {
+        return arabicValue;
+    }
+
     public static int convertToArabic(String value) {
         for (RomanNumber number : RomanNumber.values()) {
             if (number.getRomanValue().equals(value)) {
@@ -40,5 +44,14 @@ public enum RomanNumber {
             }
         }
         return Constant.INCORRECT_VALUE;
+    }
+
+    public static String convertToRoman(int value) {
+        for (RomanNumber number : RomanNumber.values()) {
+            if (number.getArabicValue() == value) {
+                return number.romanValue;
+            }
+        }
+        return Constant.DEFAULT_STRING_VALUE;
     }
 }

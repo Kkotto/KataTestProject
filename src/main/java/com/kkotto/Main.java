@@ -14,7 +14,7 @@ public class Main {
         String input = scanner.nextLine();
         scanner.close();
         try {
-            calc(input);
+            System.out.println(calc(input));
         } catch (IncorrectDataException exception) {
             LOGGER.log(Level.WARNING, exception.getMessage());
         }
@@ -23,7 +23,7 @@ public class Main {
     public static String calc(String input) throws IncorrectDataException {
         List<String> inputValues = Arrays.asList(input.split(Constant.INPUT_SPLIT_REGEX));
         if (!isInputValid(inputValues.size())) {
-            throw new IncorrectDataException(Constant.INCORRECT_INPUT_FORMAT);
+            throw new IncorrectDataException(Constant.INCORRECT_INPUT_FORMAT_EXCEPTION_TEXT);
         }
         String firstValue = inputValues.get(Constant.FIRST_NUMBER_INPUT_POSITION);
         String secondValue = inputValues.get(Constant.SECOND_NUMBER_INPUT_POSITION);
@@ -41,7 +41,18 @@ public class Main {
         if (!isRangeValid(firstNumber) || !isRangeValid(secondNumber)) {
             throw new IncorrectDataException(Constant.WRONG_RANGE_EXCEPTION_TEXT);
         }
-        return null;
+        String action = inputValues.get(Constant.ACTION_INPUT_POSITION);
+        if (!isValidAction(action)) {
+            throw new IncorrectDataException(Constant.INVALID_ACTION_EXCEPTION_TEXT);
+        }
+        int result = calculate(firstNumber, secondNumber, Action.determineAction(action));
+        if (isRomanType && result < Constant.MIN_ROMAN_VALUE) {
+            throw new IncorrectDataException(Constant.NON_POSITIVE_VALUE_EXCEPTION_TEXT);
+        }
+        if (isRomanType) {
+            return RomanNumber.convertToRoman(result);
+        }
+        return String.valueOf(result);
     }
 
     public static boolean isInputValid(int inputValuesAmount) {
@@ -66,5 +77,18 @@ public class Main {
 
     public static boolean isRangeValid(int number) {
         return number >= Constant.MIN_VALUE && number <= Constant.MAX_VALUE;
+    }
+
+    public static boolean isValidAction(String value) {
+        return Arrays.stream(Action.values()).anyMatch(action -> action.getTextAction().equals(value));
+    }
+
+    public static int calculate(int firstNumber, int secondNumber, Action action) {
+        return switch (action) {
+            case ADDITION -> firstNumber + secondNumber;
+            case SUBTRACTION -> firstNumber - secondNumber;
+            case MULTIPLICATION -> firstNumber * secondNumber;
+            case DIVISION -> firstNumber / secondNumber;
+        };
     }
 }
