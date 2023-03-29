@@ -25,10 +25,46 @@ public class Main {
         if (!isInputValid(inputValues.size())) {
             throw new IncorrectDataException(Constant.INCORRECT_INPUT_FORMAT);
         }
+        String firstValue = inputValues.get(Constant.FIRST_NUMBER_INPUT_POSITION);
+        String secondValue = inputValues.get(Constant.SECOND_NUMBER_INPUT_POSITION);
+        if (isDifferentType(firstValue, secondValue)) {
+            throw new IncorrectDataException(Constant.DIFFERENT_TYPES_EXCEPTION_TEXT);
+        }
+        boolean isRomanType = isRoman(firstValue);
+        int firstNumber, secondNumber;
+        try {
+            firstNumber = parseNumber(isRomanType, firstValue);
+            secondNumber = parseNumber(isRomanType, secondValue);
+        } catch (NumberFormatException exception) {
+            throw new IncorrectDataException(Constant.NOT_NUMBER_EXCEPTION_TEXT);
+        }
+        if (isValidRange(firstNumber) || isValidRange(secondNumber)) {
+            throw new IncorrectDataException(Constant.WRONG_RANGE_EXCEPTION_TEXT);
+        }
         return null;
     }
 
     public static boolean isInputValid(int inputValuesAmount) {
         return inputValuesAmount == Constant.VALUES_AMOUNT;
+    }
+
+    public static boolean isDifferentType(String firstValue, String secondValue) {
+        return isRoman(firstValue) ^ isRoman(secondValue);
+    }
+
+    public static boolean isRoman(String value) {
+        return Arrays.stream(RomanNumber.values()).anyMatch(romanNumber -> romanNumber.getRomanValue().equals(value));
+    }
+
+    public static int parseNumber(boolean isRomanType, String value) throws NumberFormatException {
+        if (isRomanType) {
+            return RomanNumber.convertToArabic(value);
+        } else {
+            return Integer.parseInt(value);
+        }
+    }
+
+    public static boolean isValidRange(int number) {
+        return number < Constant.MIN_VALUE || number > Constant.MAX_VALUE;
     }
 }
