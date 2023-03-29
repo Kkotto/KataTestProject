@@ -38,7 +38,7 @@ public class Main {
         } catch (NumberFormatException exception) {
             throw new IncorrectDataException(Constant.NOT_NUMBER_EXCEPTION_TEXT);
         }
-        if (isValidRange(firstNumber) || isValidRange(secondNumber)) {
+        if (!isRangeValid(firstNumber) || !isRangeValid(secondNumber)) {
             throw new IncorrectDataException(Constant.WRONG_RANGE_EXCEPTION_TEXT);
         }
         return null;
@@ -64,7 +64,7 @@ public class Main {
         }
     }
 
-    public static boolean isValidRange(int number) {
-        return number < Constant.MIN_VALUE || number > Constant.MAX_VALUE;
+    public static boolean isRangeValid(int number) {
+        return number >= Constant.MIN_VALUE && number <= Constant.MAX_VALUE;
     }
 }
