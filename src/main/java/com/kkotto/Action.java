@@ -1,6 +1,6 @@
 package com.kkotto;
 
-public enum Action {
+enum Action {
     ADDITION("+"),
     SUBTRACTION("-"),
     MULTIPLICATION("*"),

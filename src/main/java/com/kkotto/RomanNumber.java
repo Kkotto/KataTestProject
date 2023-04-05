@@ -1,6 +1,6 @@
 package com.kkotto;
 
-public enum RomanNumber {
+enum RomanNumber {
     ONE(1, "I"),
     TWO(2, "II"),
     THREE(3, "III"),

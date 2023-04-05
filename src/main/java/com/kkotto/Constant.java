@@ -1,6 +1,6 @@
 package com.kkotto;
 
-public class Constant {
+class Constant {
     public static final int FIRST_NUMBER_INPUT_POSITION = 0;
     public static final int ACTION_INPUT_POSITION = 1;
     public static final int SECOND_NUMBER_INPUT_POSITION = 2;
