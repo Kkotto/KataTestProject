@@ -1,13 +1,12 @@
 package com.kkotto;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+    private static final RomanNumberConverter romanNumberConverter = RomanNumberConverter.getInstance();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -30,7 +29,7 @@ public class Main {
         if (isDifferentType(firstValue, secondValue)) {
             throw new IncorrectDataException(Constant.DIFFERENT_TYPES_EXCEPTION_TEXT);
         }
-        boolean isRomanType = isRoman(firstValue);
+        boolean isRomanType = romanNumberConverter.isRoman(firstValue);
         int firstNumber, secondNumber;
         try {
             firstNumber = parseNumber(isRomanType, firstValue);
@@ -50,7 +49,7 @@ public class Main {
             throw new IncorrectDataException(Constant.NON_POSITIVE_VALUE_EXCEPTION_TEXT);
         }
         if (isRomanType) {
-            return RomanNumber.convertToRoman(result);
+            return romanNumberConverter.convertToRoman(result);
         }
         return String.valueOf(result);
     }
@@ -60,16 +59,12 @@ public class Main {
     }
 
     public static boolean isDifferentType(String firstValue, String secondValue) {
-        return isRoman(firstValue) ^ isRoman(secondValue);
-    }
-
-    public static boolean isRoman(String value) {
-        return Arrays.stream(RomanNumber.values()).anyMatch(romanNumber -> romanNumber.getRomanValue().equals(value));
+        return romanNumberConverter.isRoman(firstValue) ^ romanNumberConverter.isRoman(secondValue);
     }
 
     public static int parseNumber(boolean isRomanType, String value) throws NumberFormatException {
         if (isRomanType) {
-            return RomanNumber.convertToArabic(value);
+            return romanNumberConverter.convertToArabic(value);
         } else {
             return Integer.parseInt(value);
         }

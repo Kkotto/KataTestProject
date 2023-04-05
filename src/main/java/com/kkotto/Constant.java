@@ -6,8 +6,6 @@ class Constant {
     public static final int SECOND_NUMBER_INPUT_POSITION = 2;
     public static final String INPUT_SPLIT_REGEX = " ";
     public static final int VALUES_AMOUNT = 3;
-    public static final int INCORRECT_VALUE = -1;
-    public static final String DEFAULT_STRING_VALUE = null;
     public static final int MIN_VALUE = 1;
     public static final int MAX_VALUE = 10;
     public static final int MIN_ROMAN_VALUE = 1;
